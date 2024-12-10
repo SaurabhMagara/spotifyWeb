@@ -1,6 +1,6 @@
 import express from "express";
-import { getAccessToken, getAlbumsOfArtist, getArtists, getArtistsTopTracks, getCategories, getNewReleases, getTracksOfAlbum } from "./controller.routes";
-import { refreshAccessToken } from "../middleware/refreshAccessToken";
+import { getAccessToken, getAlbumsOfArtist, getArtists, getArtistsTopTracks, getCategories, getNewReleases, getTracksOfAlbum } from "../controller/all.controller";
+import { refreshAccessToken } from "../middleware/refreshAccessToken.middleware";
 
 const route = express.Router();
 

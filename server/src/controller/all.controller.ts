@@ -19,7 +19,7 @@ export const getAccessToken = async (req: express.Request, res: express.Response
 
         res
             .status(200)
-            .cookie("token", response.data.access_token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+            .cookie("token", response.data.access_token, { maxAge: 60 * 60 * 1000, httpOnly: true, secure :true })
             .json({
                 message: "token recieved",
             });
@@ -47,7 +47,7 @@ export const getCategories = async (req: express.Request, res: express.Response)
         );
 
 
-        res.status(200).json({ msg: "categories recieved", categories: response.data.categories.items });
+        res.status(200).json({ message: "Categories recieved", categories: response.data.categories.items });
 
     } catch (err) {
         console.log(err);
