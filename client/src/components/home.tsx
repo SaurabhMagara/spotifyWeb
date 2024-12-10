@@ -1,28 +1,21 @@
 import { Link } from "react-router";
 import React from "react";
-import { useTokenContext } from "../context/tokenContext";
 import axios from "axios";
 
 const Home = () => {
 
-    const { setToken } = useTokenContext();
-
     const getToken = async () => {
 
-        axios.defaults.withCredentials = true;
-
         try {
-            const res = await axios.get("/api/v1/token");
-
+            const res = await axios.get("/api/v1/token",{withCredentials : true});
             console.log("AccessToken : " + res.data.access_token);
-            setToken(res.data.access_token);
-
         } catch (error) {
             console.log("error while getting access token : ", error);
         }
     }
 
     React.useEffect(() => {
+
         getToken();
 
        // making interval for generating token before its expiry

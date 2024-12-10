@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import allRoutes from "./routes/routes.all";
 import { port } from "./utils/getEnv";
 
@@ -16,6 +17,9 @@ app.use(cors({
 
 //for using json data
 app.use(express.json());
+
+//for sending cookies
+app.use(cookieParser());
 app.use("/api/v1", allRoutes);
 
 app.listen(port || 5001,()=>{

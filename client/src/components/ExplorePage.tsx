@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useTokenContext } from "../context/tokenContext";
+import React from "react";
 
 const ExplorePage = () => {
-    const { token } = useTokenContext();
 
     const colors = [
         "#1E3264",
@@ -21,22 +20,24 @@ const ExplorePage = () => {
         "#E8125C",
         "#B06339",
         "#985F4D"
-      ];
-      
-    const getCategories = async()=>{
+    ];
+
+    const getCategories = async () => {
         try {
-            const res = await axios.post("http://localhost:5000/api/v1/categories",
-                {
-                    token: token
-                },
-                {withCredentials: true}
+            const res = await axios.get("http://localhost:5000/api/v1/categories",
+                { withCredentials: true }
             );
-            
+
+            console.log(res);
 
         } catch (error) {
-            console.log(error);            
+            console.log(error);
         }
     }
+
+    React.useEffect(() => {
+        getCategories();
+    }, []);
 
     return (
         <div className="flex items-center  h-screen w-screen flex-col bg-gray-950 subpixel-antialiased">
