@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import Home from "./components/home.tsx";
 import ExplorePage from "./components/ExplorePage.tsx";
+import Albums from "./components/Albums.tsx";
 
 function App() {
 
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/albums" element={<Albums/>}/>
       </Routes>
     </main>
   )
