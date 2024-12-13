@@ -3,7 +3,7 @@ import axios from "axios";
 import { client_id, client_secret } from "../utils/getEnv";
 
 //middlerware for refreshing access token
-export const refreshAccessToken = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const refreshAccessToken: express.RequestHandler = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
 
         //getting token from cookies
@@ -20,7 +20,7 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
             grant_type: "client_credentials",
             client_id: client_id,
             client_secret: client_secret
-            }).toString(),
+        }).toString(),
             {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -31,7 +31,7 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
         //sending response
         res
             .status(200)
-            .cookie("token", response.data.access_token, { maxAge: 60*60*1000, httpOnly: true }) // max age defines expiry
+            .cookie("token", response.data.access_token, { maxAge: 60 * 60 * 1000, httpOnly: true }) // max age defines expiry
             .json({ message: "token refreshed", AccessToken: token });
 
 

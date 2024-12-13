@@ -6,6 +6,7 @@ import { Link } from "react-router";
 const ExplorePage = () => {
 
     const [data, setData] = React.useState<Categories[]>([]);
+   
 
     const colors = [
         "#1E3264",
