@@ -34,7 +34,7 @@ const ExplorePage = () => {
 
             const newData = res.data.categories.filter((value: { name: string }) => value.name !== `New Releases`);
             setData(newData);
-
+            
         } catch (error) {
             console.log(error);
         }
@@ -60,12 +60,16 @@ const ExplorePage = () => {
                             <span className="transform transition-transform duration-300 group-hover:scale-125">Albums</span>
                         </div>
                     </Link>
+                    <Link to="/artist" className="w-full">
                     <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
                         <span className="transform transition-transform duration-300 group-hover:scale-125">Artists</span>
                     </div>
+                    </Link>
+                    <Link to="/new-releases" className="w-full">
                     <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
-                        <span className="transform transition-transform duration-300 group-hover:scale-125">New Releases</span>
+                        <span className="transform transition-transform duration-300 group-hover:scale-125 text-wrap text-center">New Releases</span>
                     </div>
+                    </Link>
                 </div>
 
                 {/* Scrollable Grid */}
