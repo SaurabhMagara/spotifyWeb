@@ -11,4 +11,7 @@ const client_id = process.env.CLIENT_ID;
 if(!process.env.CLIENT_SECRET) throw new Error("Env err: client secret not found");
 const client_secret = process.env.CLIENT_SECRET;
 
-export {client_id, client_secret, port};
+if(!process.env.ORIGIN) throw new Error("Env err : Cors origin not found.");
+const origin = process.env.ORIGIN
+
+export {client_id, client_secret, port, origin};

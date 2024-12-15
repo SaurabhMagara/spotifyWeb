@@ -5,13 +5,13 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import allRoutes from "./routes/all.routes";
-import { port } from "./utils/getEnv";
+import { origin, port } from "./utils/getEnv";
 
 const app = express();
 
 //Allow access origin for requesting from frontend
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:`${origin}`,
     credentials: true
 }));
 

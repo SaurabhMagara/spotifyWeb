@@ -30,7 +30,7 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
             //sending response
             res
                 .status(200)
-                .cookie("token", response.data.access_token, { httpOnly:true, maxAge: 60 * 60 * 1000 }) // max age defines expiry
+                .cookie("token", response.data.access_token, { httpOnly:true, maxAge: 58 * 60 * 1000 }) // max age defines expiry
                 .json({ message: "token refreshed", AccessToken: token });
 
         }

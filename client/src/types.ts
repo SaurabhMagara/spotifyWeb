@@ -1,4 +1,3 @@
-
 export type Categories = {
     id: string;
     name: string;
@@ -23,11 +22,11 @@ export type Album = {
 };
 
 export type propData = {
-    url: string,
+    url?: string,
     name: string,
     followers?: number | undefined,
     tracks?: number | undefined,
-    passData: string,
+    passData?: string,
     spotify: string,
     popularity ? : number
 }

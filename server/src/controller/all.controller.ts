@@ -19,7 +19,7 @@ export const getAccessToken = async (req: express.Request, res: express.Response
 
         res
             .status(200)
-            .cookie("token", response.data.access_token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+            .cookie("token", response.data.access_token, { maxAge: 58 * 60 * 1000, httpOnly: true })
             .json({
                 message: "token recieved",
             });
@@ -81,7 +81,7 @@ export const getArtists = async (req: express.Request, res: express.Response): P
 
         res
             .status(200)
-            .json({ message: "artists recieved.", artists: artists });
+            .json({ message: "artists recieved.", data: artists });
     } catch (error) {
         console.log(error);
         res
@@ -129,7 +129,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
 
         res
             .status(200)
-            .json({ message: "albums recieved", albums: albums });
+            .json({ message: "albums recieved", data: albums });
 
     } catch (error) {
         console.log(error);
@@ -170,7 +170,7 @@ export const getArtistsTopTracks = async (req: express.Request, res: express.Res
 
         res
             .status(200)
-            .json({ message: "top tracks recieved", tracks: tracks });
+            .json({ message: "top tracks recieved", data: tracks });
 
     } catch (error) {
         console.log(error);
@@ -199,7 +199,7 @@ export const getNewReleases = async (req: express.Request, res: express.Response
 
         res
             .status(200)
-            .json({ message: "new Released albums recieved.", albums: albums });
+            .json({ message: "new Released albums recieved.", data: albums });
     } catch (error) {
         console.log(error);
         res
@@ -230,7 +230,7 @@ export const getTracksOfAlbum = async (req: express.Request, res: express.Respon
 
         res
             .status(200)
-            .json({ message: "tracks recieved", tracks: tracks });
+            .json({ message: "tracks recieved", data: tracks });
     } catch (error) {
         console.log(error);
         res
@@ -242,7 +242,7 @@ export const getTracksOfAlbum = async (req: express.Request, res: express.Respon
 export const getAlbumOfCategory = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const token = req.cookies?.token;
-        const { category } = req.params;
+        const category  = req.params.category as string;
 
         if (!token) throw new Error("getAlbumOfCatgory err : token is missing");
 
@@ -262,7 +262,7 @@ export const getAlbumOfCategory = async (req: express.Request, res: express.Resp
 
         res
             .status(200)
-            .json({ message: "Albums recieved", albums: albums });
+            .json({ message: "Albums recieved", data: albums });
     } catch (error) {
         console.log("getAlbumOfCatgory err", error);
         res

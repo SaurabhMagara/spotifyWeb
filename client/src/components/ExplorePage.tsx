@@ -1,12 +1,15 @@
 import axios from "axios";
 import React from "react";
-import { Categories } from "../apiResponseTypes";
+import { Categories } from "../types";
 import { Link } from "react-router";
+import Divider from "./Divider";
+import toast, { Toaster } from "react-hot-toast";
+import { Bars } from "react-loader-spinner";
 
 const ExplorePage = () => {
 
     const [data, setData] = React.useState<Categories[]>([]);
-   
+    const [loading, setLoading] = React.useState(false);
 
     const colors = [
         "#1E3264",
@@ -28,15 +31,18 @@ const ExplorePage = () => {
     ];
 
     const getCategories = async () => {
+        setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/v1/categories", { withCredentials: true });
-            console.log(res);
+            const res = await axios.post("http://localhost:5000/api/v1/categories",{}, { withCredentials: true });
 
             const newData = res.data.categories.filter((value: { name: string }) => value.name !== `New Releases`);
             setData(newData);
-            
+            setLoading(false);
+
         } catch (error) {
             console.log(error);
+            toast.error("Something went wrong");
+            setLoading(false);
         }
     }
 
@@ -46,10 +52,12 @@ const ExplorePage = () => {
 
     return (
         <div className=" flex items-center min-h-screen w-screen flex-col gap-5 bg-gray-950 subpixel-antialiased overflow-y-hidden">
+            <div>
+                <Toaster position="bottom-right" reverseOrder={false} />
+            </div>
             <h1 className="text-gray-200 font-bold text-5xl pt-2">Explore</h1>
 
-            {/* Divider */}
-            <div className="border w-9/12 border-gray-700 rounded-full mb-2"></div>
+            <Divider />
 
             <div className="flex justify-evenly items-center flex-wrap gap-5 w-8/12 p-0 my-0">
 
@@ -61,14 +69,14 @@ const ExplorePage = () => {
                         </div>
                     </Link>
                     <Link to="/artist" className="w-full">
-                    <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
-                        <span className="transform transition-transform duration-300 group-hover:scale-125">Artists</span>
-                    </div>
+                        <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
+                            <span className="transform transition-transform duration-300 group-hover:scale-125">Artists</span>
+                        </div>
                     </Link>
                     <Link to="/new-releases" className="w-full">
-                    <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
-                        <span className="transform transition-transform duration-300 group-hover:scale-125 text-wrap text-center">New Releases</span>
-                    </div>
+                        <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
+                            <span className="transform transition-transform duration-300 group-hover:scale-125 text-wrap text-center">New Releases</span>
+                        </div>
                     </Link>
                 </div>
 
@@ -77,22 +85,36 @@ const ExplorePage = () => {
                     <h1 className="text-gray-300 font-bold text-2xl  ">Categories</h1>
                     <div className="border w-full border-gray-700 rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 text-gray-300 w-full h-full">
+                {loading ?
+                    <div className="h-[600px] w-full flex justify-center items-center">
+                        <Bars
+                            height="80"
+                            width="80"
+                            color="#4fa94d"
+                            ariaLabel="bars-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        /> </div>
+                    :
+                    <div className="grid grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 text-gray-300 w-full h-full">
 
-                    {
-                        data.map((value, i) => {
-                            return (
-                                <div
-                                    key={value.id}
-                                    className="h-40 flex justify-center items-center rounded-lg text-xl "
-                                    style={{ background: `linear-gradient(to bottom left, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})` }}
-                                >
-                                    {value.name || `Item ${i + 1}`}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                        {
+                            data.map((value, i) => {
+                                return (
+                                    <Link to={`/categories/:${value.name}`}>
+                                        <div
+                                            className="h-40 flex justify-center items-center rounded-lg text-xl "
+                                            key={value.id}
+                                            style={{ background: `linear-gradient(to bottom left, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})` }}
+                                        >
+                                            {value.name || `Item ${i + 1}`}
+                                        </div>
+                                    </Link>
+                                )
+                            })
+                        }
+                    </div>}
             </div>
         </div>
     )
