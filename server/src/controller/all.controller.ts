@@ -2,6 +2,14 @@ import axios from "axios";
 import express from "express";
 import { client_id, client_secret } from "../utils/getEnv";
 
+//utility foe sending headers
+const sendHeaders = (token : string)=>{
+    return {
+        "Authorization" : `Bearer ${token}`
+    }
+}
+
+//To get token for sending endpoints
 export const getAccessToken = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
 
@@ -19,7 +27,7 @@ export const getAccessToken = async (req: express.Request, res: express.Response
 
         res
             .status(200)
-            .cookie("token", response.data.access_token, { maxAge: 58 * 60 * 1000, httpOnly: true })
+            .cookie("token", response.data.access_token, { maxAge: 58*60*1000, httpOnly: true })
             .json({
                 message: "token recieved",
             });
@@ -32,6 +40,7 @@ export const getAccessToken = async (req: express.Request, res: express.Response
     }
 }
 
+//Get Categories of albums 
 export const getCategories = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
@@ -40,9 +49,7 @@ export const getCategories = async (req: express.Request, res: express.Response)
 
         const response = await axios.get("https://api.spotify.com/v1/browse/categories?limit=50",
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: sendHeaders(token)
             }
         );
         res
@@ -57,11 +64,12 @@ export const getCategories = async (req: express.Request, res: express.Response)
     }
 }
 
+//To get Artists
 export const getArtists = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
 
-        const name = req.query?.name as string;
+        const {name} = req.query;
 
         if (!token) throw new Error("getArtists err: token is missing");
 
@@ -69,9 +77,7 @@ export const getArtists = async (req: express.Request, res: express.Response): P
 
         const resposne = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=artist`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: sendHeaders(token)
             }
         );
 
@@ -90,6 +96,7 @@ export const getArtists = async (req: express.Request, res: express.Response): P
     }
 }
 
+//Toget albums of specific Artist
 export const getAlbumsOfArtist = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
@@ -102,9 +109,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
         // first request for artist id
         const responseToGetArtistId = await axios.get(`https://api.spotify.com/v1/search?q=${artist}&type=artist`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers:  sendHeaders(token)
             }
         );
 
@@ -116,9 +121,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
         //second request for getting that artists album
         const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}/albums?limit=20`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers:  sendHeaders(token)
             }
         );
 
@@ -139,6 +142,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
     }
 }
 
+// To get Top tracks of Specific Artists
 export const getArtistsTopTracks = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
@@ -149,9 +153,7 @@ export const getArtistsTopTracks = async (req: express.Request, res: express.Res
         if (!name) throw new Error("artistsTopTrack err : query param is missing");
 
         const responseToGetArtistId = await axios(`https://api.spotify.com/v1/search?q=${name}&type=artist`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers:  sendHeaders(token)
         });
 
         const artistId = await responseToGetArtistId.data.artists.items[0].id;
@@ -159,9 +161,7 @@ export const getArtistsTopTracks = async (req: express.Request, res: express.Res
 
         const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: sendHeaders(token)
             }
         );
 
@@ -180,6 +180,7 @@ export const getArtistsTopTracks = async (req: express.Request, res: express.Res
     }
 }
 
+// To get Newly Released Albums
 export const getNewReleases = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
@@ -188,9 +189,7 @@ export const getNewReleases = async (req: express.Request, res: express.Response
 
         const response = await axios.get("https://api.spotify.com/v1/browse/new-releases",
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers:  sendHeaders(token)
             }
         );
 
@@ -208,6 +207,7 @@ export const getNewReleases = async (req: express.Request, res: express.Response
     }
 }
 
+//To get all tracks on specific album
 export const getTracksOfAlbum = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const { token } = req.cookies;
@@ -219,9 +219,7 @@ export const getTracksOfAlbum = async (req: express.Request, res: express.Respon
 
         const response = await axios.get(`https://api.spotify.com/v1/albums/${albumId}/tracks`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: sendHeaders(token)
             }
         );
 
@@ -239,6 +237,7 @@ export const getTracksOfAlbum = async (req: express.Request, res: express.Respon
     }
 }
 
+//Search albums of any category
 export const getAlbumOfCategory = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const token = req.cookies?.token;
@@ -250,9 +249,7 @@ export const getAlbumOfCategory = async (req: express.Request, res: express.Resp
 
         const response = await axios.get(`https://api.spotify.com/v1/search?q=${category}&type=album&limit=30`,
             {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: sendHeaders(token)
             }
         );
 

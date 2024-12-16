@@ -33,7 +33,7 @@ const ExplorePage = () => {
     const getCategories = async () => {
         setLoading(true);
         try {
-            const res = await axios.post("http://localhost:5000/api/v1/categories",{}, { withCredentials: true });
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/categories`,{}, { withCredentials: true });
 
             const newData = res.data.categories.filter((value: { name: string }) => value.name !== `New Releases`);
             setData(newData);
@@ -102,9 +102,9 @@ const ExplorePage = () => {
                         {
                             data.map((value, i) => {
                                 return (
-                                    <Link to={`/categories/:${value.name}`}>
+                                    <Link to={`/categories/:${value.name}`} key={value.id}>
                                         <div
-                                            className="h-40 flex justify-center items-center rounded-lg text-xl "
+                                            className="h-40 flex justify-center items-center rounded-lg text-xl transition-transform duration-300 hover:scale-105 "
                                             key={value.id}
                                             style={{ background: `linear-gradient(to bottom left, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})` }}
                                         >

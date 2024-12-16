@@ -10,9 +10,9 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
         const token = req.cookies; //conditional check
 
         //if there is token then call next
-        if (token) {
+        if (token) {            
             return next();
-        } else {
+        } 
             // if there is not token then 
             // using URLSearchParams for giving url encoded form data
             const response = await axios.post("https://accounts.spotify.com/api/token", new URLSearchParams({
@@ -27,13 +27,14 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
                 }
             );
 
+            console.log("resfreshing token...");
+            
+
             //sending response
             res
                 .status(200)
-                .cookie("token", response.data.access_token, { httpOnly:true, maxAge: 58 * 60 * 1000 }) // max age defines expiry
+                .cookie("token", response.data.access_token, { httpOnly:true, maxAge: 58*60*1000 }) // max age defines expiry
                 .json({ message: "token refreshed", AccessToken: token });
-
-        }
     } catch (error) {
         console.log(error);
         // if res dosent send header then gives error 

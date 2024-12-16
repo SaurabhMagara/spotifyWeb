@@ -9,7 +9,7 @@ const Home = () => {
     const getToken = async () => {
 
         try {
-            const res = await axios.get("/api/v1/token",{withCredentials : true});
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/token`,{withCredentials : true});
             console.log(res);
         } catch (error) {
             console.log("error while getting access token : ", error);
