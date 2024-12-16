@@ -10,7 +10,7 @@ const app = express();
 
 //Allow access origin for requesting from frontend
 app.use(cors({
-    origin:`${origin}`,
+    origin:process.env.ORIGIN,
     credentials: true
 }));
 
