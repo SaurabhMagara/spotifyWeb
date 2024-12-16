@@ -1,6 +1,5 @@
 import axios from "axios";
 import express from "express";
-import { client_id, client_secret } from "../utils/getEnv";
 
 //utility foe sending headers
 const sendHeaders = (token : string)=>{
@@ -15,8 +14,8 @@ export const getAccessToken = async (req: express.Request, res: express.Response
 
         const response = await axios.post("https://accounts.spotify.com/api/token", {
             grant_type: "client_credentials",
-            client_id: client_id,
-            client_secret: client_secret
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET
         },
             {
                 headers: {
