@@ -1,7 +1,9 @@
 import express from "express";
 import axios from "axios";
-import { client_id, client_secret } from "../utils/getEnv";
 
+
+const client_id = process.env.CLIENT_SECRET;
+const client_secret = process.env.CLIENT_SECRET;
 //middlerware for refreshing access token
 export const refreshAccessToken = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
@@ -15,11 +17,11 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
         } 
             // if there is not token then 
             // using URLSearchParams for giving url encoded form data
-            const response = await axios.post("https://accounts.spotify.com/api/token", new URLSearchParams({
-                grant_type: "client_credentials",
-                client_id: client_id,
-                client_secret: client_secret
-            }).toString(),
+            const response = await axios.post("https://accounts.spotify.com/api/token", {
+                grant_type : "client_credentials",
+                client_id : client_id,
+                client_secret : client_secret
+            },
                 {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
