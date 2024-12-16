@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // API Routes
-app.use("/api/v1", allRoutes);
+// app.use("/api/v1", allRoutes);
 
 // Vercel assigns a port automatically, use process.env.PORT
 // const port = process.env.PORT || 5001;
