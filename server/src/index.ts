@@ -22,6 +22,6 @@ app.use(cookieParser());
 
 app.use("/api/v1", allRoutes);
 
-app.listen(process.env.ORIGIN || 5001,()=>{
-    console.log("Port is running :", process.env.ORIGIN);
+app.listen(process.env.PORT || 5001,()=>{
+    console.log("Port is running :", process.env.PORT);
 });
