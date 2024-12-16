@@ -28,3 +28,8 @@ app.use("/api/v1", allRoutes);
 // app.listen(port, () => {
 //     console.log(`Server is running on port: ${port}`);
 // });
+app.get("/", (req :express.Request, res:express.Response) => {
+    res.send("Hello from Vercel!");
+});
+
+export default app;
