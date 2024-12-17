@@ -10,8 +10,9 @@ const app = express();
 
 // Allow access origin for requests from frontend
 app.use(cors({
-    origin:"*", // This is used to specify allowed CORS origin
-    credentials: true
+    origin:process.env.ORIGIN, // This is used to specify allowed CORS origin
+    credentials: true,
+    
 }));
 
 // For using JSON data
