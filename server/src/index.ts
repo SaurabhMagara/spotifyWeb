@@ -5,13 +5,12 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import allRoutes from "./routes/all.routes";
-import { origin, port } from "./utils/getEnv";
 
 const app = express();
 
 //Allow access origin for requesting from frontend
 app.use(cors({
-    origin:`${origin}`,
+    origin: process.env.ORIGIN,
     credentials: true
 }));
 
@@ -23,6 +22,6 @@ app.use(cookieParser());
 
 app.use("/api/v1", allRoutes);
 
-app.listen(port || 5001,()=>{
-    console.log("Port is running :", port);
+app.listen(process.env.PORT || 5001,()=>{
+    console.log("Port is running :", process.env.PORT);
 });
