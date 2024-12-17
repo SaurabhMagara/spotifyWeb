@@ -35,7 +35,7 @@ const Home = () => {
                 <div className="h-2/6 gap-5 w-11/12 flex flex-col justify-center items-center">
                     <h1 className="font-bold text-5xl text-green-600 text-center ">Spotify Web</h1>
                     <p className="text-gray-200 text-lg text-wrap text-center w-11/12 md:w-8/12"> Welcome to Spotify web. Here you can find albums, tracks and many more about songs. This platform direct you to spotify to discover more. </p>
-                    <Link to='/explore'>
+                    <Link to='/categories'>
                         <button className="flex justify-center items-center text-center gap-2 py-2 px-3 text-gray-200 rounded-full text-lg bg-green-600 transition-all hover:bg-inherit hover:border hover:border-green-600 hover:text-green-600"> Let's go <FaArrowRightLong />
                         </button>
                     </Link>
