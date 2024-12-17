@@ -59,30 +59,30 @@ const ExplorePage = () => {
 
             <Divider />
 
-            <div className="flex justify-evenly items-center flex-wrap gap-5 w-8/12 p-0 my-0">
+            <div className="flex justify-evenly items-center flex-wrap gap-5 w-11/12 sm:w-9/12 p-0 my-0">
 
                 {/* Top Two Boxes */}
-                <div className="grid grid-cols-3 gap-5 w-full place-items-center py-2 ">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full place-items-center py-2 ">
                     <Link to="/albums" className="w-full">
-                        <div className="w-full h-52 flex justify-center items-center rounded-lg bg-gradient-to-tr from-violet-800 to-pink-700 text-2xl font-semibold text-gray-300 cursor-pointer group shadow-lg transform transition-all duration-300 hover:scale-105">
-                            <span className="transform transition-transform duration-300 group-hover:scale-125">Albums</span>
+                        <div className="w-full h-28 sm:h-52 flex justify-center items-center rounded-lg bg-gradient-to-tr from-violet-800 to-pink-700 text-2xl font-semibold text-gray-300 cursor-pointer group shadow-lg sm:transform sm:transition-all sm:duration-300 sm:hover:scale-105">
+                            <span className="sm:transform sm:transition-transform sm:duration-300 sm:group-hover:scale-125">Albums</span>
                         </div>
                     </Link>
                     <Link to="/artist" className="w-full">
-                        <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
-                            <span className="transform transition-transform duration-300 group-hover:scale-125">Artists</span>
+                        <div className="w-full h-28 sm:h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg sm:transform sm:transition-all sm:duration-300 sm:hover:scale-105">
+                            <span className="sm:transform sm:transition-transform sm:duration-300 sm:group-hover:scale-125">Artists</span>
                         </div>
                     </Link>
                     <Link to="/new-releases" className="w-full">
-                        <div className="w-full h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg transform transition-all duration-300 hover:scale-105">
-                            <span className="transform transition-transform duration-300 group-hover:scale-125 text-wrap text-center">New Releases</span>
+                        <div className="w-full h-28 sm:h-52 flex justify-center items-center rounded-lg text-2xl font-semibold text-gray-300 bg-gradient-to-tr from-blue-800 to-emerald-800 group shadow-lg sm:transform sm:transition-all sm:duration-300 sm:hover:scale-105">
+                            <span className="sm:transform sm:transition-transform sm:duration-300 sm:group-hover:scale-125 text-wrap text-center">New Releases</span>
                         </div>
                     </Link>
                 </div>
 
                 {/* Scrollable Grid */}
                 <div className="w-full flex flex-col gap-3">
-                    <h1 className="text-gray-300 font-bold text-2xl  ">Categories</h1>
+                    <h1 className="text-gray-300 font-bold text-2xl ">Categories</h1>
                     <div className="border w-full border-gray-700 rounded-full"></div>
                 </div>
                 {loading ?
@@ -97,18 +97,18 @@ const ExplorePage = () => {
                             visible={true}
                         /> </div>
                     :
-                    <div className="grid grid-cols-4 gap-5 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 text-gray-300 w-full h-full">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:w-11/12 text-gray-300 w-full h-full">
 
                         {
                             data.map((value, i) => {
                                 return (
                                     <Link to={`/categories/:${value.name}`} key={value.id}>
                                         <div
-                                            className="h-40 flex justify-center items-center rounded-lg text-xl transition-transform duration-300 hover:scale-105 "
+                                            className="h-32 sm:h-40 shadow-sm flex justify-center items-center rounded-lg sm:text-lg sm:transition-transform sm:duration-300 sm:hover:scale-105 font-medium group"
                                             key={value.id}
                                             style={{ background: `linear-gradient(to bottom left, ${colors[i % colors.length]}, ${colors[(i + 1) % colors.length]})` }}
                                         >
-                                            {value.name || `Item ${i + 1}`}
+                                            <span className="sm:transform sm:transition-transform sm:duration-300 sm:group-hover:scale-125 text-wrap text-center">{value.name || `Item ${i + 1}`}</span>
                                         </div>
                                     </Link>
                                 )

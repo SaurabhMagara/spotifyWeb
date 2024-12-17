@@ -18,7 +18,6 @@ export type Album = {
     id: string,
     images: Image[],
     name: string,
-    popularity ? : number
 };
 
 export type propData = {
@@ -28,5 +27,4 @@ export type propData = {
     tracks?: number | undefined,
     passData?: string,
     spotify: string,
-    popularity ? : number
 }

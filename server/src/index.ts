@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // API Routes
-// app.use("/api/v1", allRoutes);
+app.use('/api/v1', allRoutes);
 
 
 app.listen(process.env.PORT || 5001,()=>{
