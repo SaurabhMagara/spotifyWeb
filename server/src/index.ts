@@ -10,7 +10,7 @@ const app = express();
 
 // Allow access origin for requests from frontend
 app.use(cors({
-    origin:["http://localhost:5173", "*"], // This is used to specify allowed CORS origin
+    origin:"*", // This is used to specify allowed CORS origin
     credentials: true
 }));
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 
 app.get("/", (req, res)=>{
-    res.send("Hello");
+    res.json({message : "hello"});
 })
 // API Routes
 app.use('/api/v1', allRoutes);
