@@ -20,6 +20,10 @@ app.use(express.json());
 // For sending cookies
 app.use(cookieParser());
 
+
+app.get("/", (req, res)=>{
+    res.send("Hello");
+})
 // API Routes
 app.use('/api/v1', allRoutes);
 
