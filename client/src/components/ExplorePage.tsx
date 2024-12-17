@@ -33,7 +33,7 @@ const ExplorePage = () => {
     const getCategories = async () => {
         setLoading(true);
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/categories`,{}, { withCredentials: true });
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/categories`, {}, { withCredentials: true });
 
             const newData = res.data.categories.filter((value: { name: string }) => value.name !== `New Releases`);
             setData(newData);
@@ -42,6 +42,8 @@ const ExplorePage = () => {
         } catch (error) {
             console.log(error);
             toast.error("Something went wrong");
+            
+        }finally{
             setLoading(false);
         }
     }
@@ -52,9 +54,8 @@ const ExplorePage = () => {
 
     return (
         <div className=" flex items-center min-h-screen w-screen flex-col gap-5 bg-gray-950 subpixel-antialiased overflow-y-hidden">
-            <div>
-                <Toaster position="bottom-right" reverseOrder={false} />
-            </div>
+            <Toaster position="bottom-right" reverseOrder={false} />
+
             <h1 className="text-gray-200 font-bold text-5xl pt-2">Explore</h1>
 
             <Divider />

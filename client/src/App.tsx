@@ -10,11 +10,11 @@ function App() {
     <main className="overflow-x-hidden">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/explore" element={<ExplorePage />} />
         <Route path="/artist" element={<Albums passData="artist"/>}/>
         <Route path="/albums" element={<Albums passData="albums"/>}/>
         <Route path="/new-releases" element={<Albums passData="new-releases"/>}/>
         <Route path="/categories/:id" element={<CategoriesPage/>}/>
+        <Route path="/categories" element={<ExplorePage/>}/>
       </Routes>
     </main>
   )

@@ -21,6 +21,7 @@ const Albums = ({ passData }: { passData: string }) => {
           style: { borderRadius: '10px', background: '#333', color: '#fff' },
         });
       }
+
       setLoading(true);
       
       const baseUrl = `${import.meta.env.VITE_API_URL}/api/v1/${passData}`;
@@ -67,7 +68,7 @@ const Albums = ({ passData }: { passData: string }) => {
           {passData === "new-releases" ? "New Releases" : passData === 'artist' ? "Artists" : "Albums"}
         </h1>
         {passData !== 'new-releases' && (
-          <form onSubmit={handleSearch} className="relative w-64 sm:w-96 mt-4 sm:mt-0">
+          <form onSubmit={handleSearch} className="relative w-64 sm:w-72 lg:w-96 mt-4 sm:mt-0">
             <input 
               type="text" 
               className="w-full h-12 rounded-full bg-gray-700 outline-none px-4 pr-12 text-lg text-gray-300 tracking-wide" 
@@ -116,7 +117,7 @@ export const AlbumCard = ({ url, name, followers, tracks, passData, spotify }: p
         <img 
           src={url} 
           alt={name} 
-          className="h-[64px] w-[64px] sm:h[300px] sm:w-full object-cover rounded-l-xl sm:rounded-t-xl sm:transition-transform sm:duration-300 sm:hover:scale-110" 
+          className="h-[64px] w-[64px] sm:h-[300px] sm:w-full object-cover rounded-l-xl sm:rounded-t-xl sm:transition-transform sm:duration-300 sm:hover:scale-110" 
         />
       ) : ( 
         <div 
