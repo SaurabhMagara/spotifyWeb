@@ -15,7 +15,7 @@ const CategoriesPage = () => {
     const getResponse = async () => {
         setLoading(true);
         try {
-            //Remove the double slash end encode the categoryid
+            //Remove the double slash end encode the category id
             const encodedId = encodeURIComponent(id || '');
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/albums/${encodedId}`,{},{ withCredentials: true });
             setData(res.data.data);
