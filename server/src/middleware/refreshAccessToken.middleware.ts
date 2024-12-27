@@ -42,6 +42,11 @@ export const refreshAccessToken = async (req: express.Request, res: express.Resp
                 domain : ".vercel.app"
             }) // max age defines expiry
             .json({ message: "token refreshed", AccessToken: token });
+
+        //store token in request for this request cycle
+        req.cookies.token = response.data.access_token;
+
+        return next();
     } catch (error) {
         console.log(error);
         // if res dosent send header then gives error 

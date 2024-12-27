@@ -10,7 +10,7 @@ const app = express();
 
 // Allow access origin for requests from frontend
 app.use(cors({
-    origin:[process.env.ORIGIN || ""], // This is used to specify allowed CORS origin
+    origin:[process.env.ORIGIN || "https://spotifyweb-seven.vercel.app"], // This is used to specify allowed CORS origin
     credentials: true,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
