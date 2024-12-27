@@ -33,9 +33,10 @@ const ExplorePage = () => {
     const getCategories = async () => {
         setLoading(true);
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/categories`, {}, { withCredentials: true });
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/categories`, {}, { withCredentials: true});
 
-            const newData = res.data.categories.filter((value: { name: string }) => value.name !== `New Releases` && value.name !== `Dance/Electronic`);
+            const categories = res.data.categories;
+            const newData = categories.filter((value: { name: string }) => value.name !== `New Releases` && value.name !== `Dance/Electronic`);
             setData(newData);
             setLoading(false);
 
