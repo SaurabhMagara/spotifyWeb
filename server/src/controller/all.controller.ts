@@ -2,9 +2,9 @@ import axios from "axios";
 import express from "express";
 
 //utility for sending headers
-const sendHeaders = (token : string)=>{
+const sendHeaders = (token: string) => {
     return {
-        "Authorization" : `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     }
 }
 
@@ -26,7 +26,13 @@ export const getAccessToken = async (req: express.Request, res: express.Response
 
         res
             .status(200)
-            .cookie("token", response.data.access_token, { maxAge: 58*60*1000, httpOnly: true })
+            .cookie("token", response.data.access_token, {
+                maxAge: 58 * 60 * 1000,
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                domain: '.vercel.app'
+            })
             .json({
                 message: "token recieved",
             });
@@ -68,7 +74,7 @@ export const getArtists = async (req: express.Request, res: express.Response): P
     try {
         const { token } = req.cookies;
 
-        const {name} = req.query;
+        const { name } = req.query;
 
         if (!token) throw new Error("getArtists err: token is missing");
 
@@ -80,7 +86,7 @@ export const getArtists = async (req: express.Request, res: express.Response): P
             }
         );
 
-        const artists  = await resposne.data.artists.items;
+        const artists = await resposne.data.artists.items;
 
         if (!artists) throw new Error("getArtists err: cpuld'nt get Artists");
 
@@ -108,7 +114,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
         // first request for artist id
         const responseToGetArtistId = await axios.get(`https://api.spotify.com/v1/search?q=${artist}&type=artist`,
             {
-                headers:  sendHeaders(token)
+                headers: sendHeaders(token)
             }
         );
 
@@ -120,7 +126,7 @@ export const getAlbumsOfArtist = async (req: express.Request, res: express.Respo
         //second request for getting that artists album
         const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}/albums?limit=20`,
             {
-                headers:  sendHeaders(token)
+                headers: sendHeaders(token)
             }
         );
 
@@ -152,7 +158,7 @@ export const getArtistsTopTracks = async (req: express.Request, res: express.Res
         if (!name) throw new Error("artistsTopTrack err : query param is missing");
 
         const responseToGetArtistId = await axios(`https://api.spotify.com/v1/search?q=${name}&type=artist`, {
-            headers:  sendHeaders(token)
+            headers: sendHeaders(token)
         });
 
         const artistId = await responseToGetArtistId.data.artists.items[0].id;
@@ -188,7 +194,7 @@ export const getNewReleases = async (req: express.Request, res: express.Response
 
         const response = await axios.get("https://api.spotify.com/v1/browse/new-releases",
             {
-                headers:  sendHeaders(token)
+                headers: sendHeaders(token)
             }
         );
 
@@ -240,13 +246,23 @@ export const getTracksOfAlbum = async (req: express.Request, res: express.Respon
 export const getAlbumOfCategory = async (req: express.Request, res: express.Response): Promise<void> => {
     try {
         const token = req.cookies?.token;
-        const category  = req.params.category as string;
+        const category = decodeURIComponent(req.params.category);
 
-        if (!token) throw new Error("getAlbumOfCatgory err : token is missing");
+        if (!token) {
+            res
+                .status(401)
+                .json({ message: "getAlbumsOfCategory err : Token not found." });
+            return;
+        }
 
-        if (!category) throw new Error("getAlbumOfCatgory err : query parameter is missing");
+        if (!category) {
+            res
+                .status(400)
+                .json({ message: "getAlbumsOfCategory err : Category parameter not found." });
+            return;
+        }
 
-        const response = await axios.get(`https://api.spotify.com/v1/search?q=${category}&type=album&limit=30`,
+        const response = await axios.get(`https://api.spotify.com/v1/search?q=${encodeURIComponent(category)}&type=album&limit=30`,
             {
                 headers: sendHeaders(token)
             }
@@ -254,15 +270,18 @@ export const getAlbumOfCategory = async (req: express.Request, res: express.Resp
 
         const albums = await response.data.albums.items;
 
-        if (!albums) throw new Error("getAlbumOfCatgory err : couldn't get albums");
-
+        if (!albums) {
+            res.status(404).json({ message: "getAlbumsOfCategory err : No albums found" });
+            return;
+        }
         res
             .status(200)
             .json({ message: "Albums recieved", data: albums });
     } catch (error) {
         console.log("getAlbumOfCatgory err", error);
-        res
-            .status(500)
-            .json({ message: "getAlbumOfCatgory error", error: error });
+        res.status(500).json({
+            message: "Internal server error",
+            error: error instanceof Error ? error.message : 'Unknown error'
+        });
     }
 }

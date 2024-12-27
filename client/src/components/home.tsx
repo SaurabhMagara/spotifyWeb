@@ -8,7 +8,12 @@ const Home = () => {
     const getToken = async () => {
 
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/token`,{withCredentials : true});
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/token`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log(res);
         } catch (error) {
             console.log("error while getting access token : ", error);
@@ -19,13 +24,13 @@ const Home = () => {
 
         getToken();
 
-       // making interval for generating token before its expiry
-       const interval = setInterval(()=>{
-        console.log("refreshing token...");
-        getToken();
-       }, 57*60*1000);
+        // making interval for generating token before its expiry
+        const interval = setInterval(() => {
+            console.log("refreshing token...");
+            getToken();
+        }, 57 * 60 * 1000);
 
-       return ()=> clearInterval(interval);
+        return () => clearInterval(interval);
 
     }, []);
 
